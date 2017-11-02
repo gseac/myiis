@@ -7,13 +7,18 @@ powershell_script 'install myiis' do
   code 'Add-WindowsFeature Web-Server'
 end
 
-file 'C:\inetpub\wwwroot\Default.htm' do
-  content "<h1>That is me </h1>
-  <h2>PLATFORM #{node['platform']}
-  <h2>HOSTNAME #{node['hostname']}
-  <h2>memory #{node['memory']['total']}
-  <h2>memory #{node['cpu']['0']['mhz']}"
+# file 'C:\inetpub\wwwroot\Default.htm' do
+#   content "<h1>That is me </h1>
+#   <h2>PLATFORM #{node['platform']}
+#   <h2>HOSTNAME #{node['hostname']}
+#   <h2>memory #{node['memory']['total']}
+#   <h2>memory #{node['cpu']['0']['mhz']}"
+# end
+
+template 'C:\inetpub\wwwroot\Default.htm' do
+  source 'default.htm.erb'
 end
+
 
 service 'w3svc' do
   action [:enable, :start]
